@@ -14,9 +14,6 @@ a = plt.axes()
 sl = util.check_system()['sl']
 
 
-def main(argv):
-    # plot1()
-    plot2()
 
 
 def plot2():
@@ -98,4 +95,3 @@ def plot1():
 
 
 if __name__ == '__main__':
-    main(sys.argv)
