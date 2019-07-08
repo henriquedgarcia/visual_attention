@@ -4,6 +4,22 @@ import os
 import platform
 
 
+class Pathname:
+    def __init__(self, filename: str):
+        self.folder = ''
+        self.name = ''
+        self.ext = ''
+        self.split_filename(filename=filename)
+
+    def split_filename(self, filename: str):
+        head, tail = os.path.split(filename)
+        root, ext = os.path.splitext(tail)
+
+        self.folder = head
+        self.name = root
+        self.ext = ext[1:]
+
+
 class AutoDict(dict):
     def __missing__(self, key):
         value = self[key] = type(self)()
@@ -73,3 +89,5 @@ def show_json(obj: dict, show=True, ret=True):
 
 def makedir(dirname: str):
     os.makedirs(dirname, exist_ok=True)
+
+
