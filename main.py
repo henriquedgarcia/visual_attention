@@ -143,7 +143,32 @@ def plot1():
         print('')
 
 
+def crop_samples():
+    folder = 'results/cropped_samples'
+    os.makedirs(folder, exist_ok=True)
+
+    df_start_pos = pd.read_csv(f'results/start_point/starter_samples.csv', index_col=0)
+
+    for file in glob.glob('head_movement/*.csv'):
+        pathname = util.Pathname(file)
+        df = pd.read_csv(file)
+
+        # Find current user
+        user = int(pathname.name.split('_')[0])
+        # catch his position
+        start_pos = int(df_start_pos.loc[user])
+        # slice dataframe starting from his position
+        new_df = df.loc[start_pos:][['rawYaw', 'rawPitch', 'rawRoll',
+                                     'correctedYaw', 'correctedPitch', 'correctedRoll',
+                                     'filteredYaw', 'filteredPitch', 'filteredRoll',
+                                     'mappedYaw', 'mappedPitch', 'mappedRoll']]
+        # saving dataframe
+        print(f'Saving {pathname.name}.')
+        new_df.to_csv(f'{folder}/{pathname.name}.csv', index=False)
+
+
 if __name__ == '__main__':
     # plot1()
     # plot2()
     # start_point()
+    crop_samples()
