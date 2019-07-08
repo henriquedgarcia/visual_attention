@@ -17,10 +17,15 @@ sl = util.check_system()['sl']
 
 
 def plot2():
+    '''
+    Plot derivate of corrected samples
+    :return:
+    '''
     for file in glob.glob('head_movement/*.csv'):
         df = pd.read_csv(file)
         folder = 'results/plot2'
         os.makedirs(folder, exist_ok=True)
+
         name = os.path.basename(file)
         name = os.path.splitext(name)[0]
 
@@ -40,7 +45,7 @@ def plot2():
         ax[1].plot(np.gradient(df['correctedPitch']))
         ax[2].plot(np.gradient(df['correctedRoll']))
 
-        ax[0].set_title('derivate measures')
+        ax[0].set_title('derivate of corrected samples')
         ax[2].set_xlabel('samples')
 
         name_corrected = f'{folder}/{name}_derivate'
@@ -115,3 +120,4 @@ def plot1():
 
 if __name__ == '__main__':
     # plot1()
+    # plot2()
