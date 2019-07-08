@@ -9,7 +9,9 @@ import glob
 import matplotlib.pyplot as plt
 import util
 
+# utils
 a = plt.axes()
+sl = util.check_system()['sl']
 
 
 def main(argv):
