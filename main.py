@@ -14,6 +14,31 @@ a = plt.axes()
 sl = util.check_system()['sl']
 
 
+def start_point():
+    folder = 'results/start_point'
+    os.makedirs(folder, exist_ok=True)
+
+    start_pos = dict(user=[],
+                     sample=[])
+
+    for file in glob.glob('head_movement/*.csv'):
+        pathname = util.Pathname(file)
+        df = pd.read_csv(file)
+
+        # Find current user
+        user, seq = pathname.name.split('_')
+        start_pos['user'].append(user)
+
+        # The roll is the better marker for the starter sample
+        der_roll = np.gradient(df['correctedRoll'])
+        max_droll = der_roll.max()
+        position = np.where(der_roll == max_droll)[0][0] + 1
+        start_pos['sample'].append(position)
+
+        print(f'User = {user}, position = {position}, roll_value = {df["correctedRoll"][position]}')
+
+    df_start_pos = pd.DataFrame(start_pos)
+    df_start_pos.to_csv(f'{folder}{sl}starter_samples.csv', index=False)
 
 
 def plot2():
@@ -121,3 +146,4 @@ def plot1():
 if __name__ == '__main__':
     # plot1()
     # plot2()
+    # start_point()
